@@ -24,13 +24,9 @@ DROP TABLE IF EXISTS `concurso`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `concurso` (
   `Id_concurso` int(11) NOT NULL AUTO_INCREMENT,
-  `Id_registro` int(11) DEFAULT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `edicion` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Id_concurso`),
-  KEY `concurso_registro_FK` (`Id_registro`),
-  CONSTRAINT `concurso_registro_FK` FOREIGN KEY (`Id_registro`) REFERENCES `registro` (`Id_registro`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`Id_concurso`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +35,7 @@ CREATE TABLE `concurso` (
 
 LOCK TABLES `concurso` WRITE;
 /*!40000 ALTER TABLE `concurso` DISABLE KEYS */;
-INSERT INTO `concurso` VALUES (1,1,'Concurso de Innovacion',2026);
+INSERT INTO `concurso` VALUES (1,'Concurso de Innovacion',9);
 /*!40000 ALTER TABLE `concurso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,13 +103,16 @@ CREATE TABLE `registro` (
   `Id_registro` int(11) NOT NULL AUTO_INCREMENT,
   `Id_equipo` int(11) DEFAULT NULL,
   `Id_evaluacion` int(11) DEFAULT NULL,
+  `Id_concurso` int(11) DEFAULT NULL,
   `fecha_inscripcion` date DEFAULT NULL,
   `fecha_presentacion` date DEFAULT NULL,
   PRIMARY KEY (`Id_registro`),
   KEY `concurso_equipo_FK` (`Id_equipo`),
   KEY `concurso_evaluacion_FK` (`Id_evaluacion`),
+  KEY `concurso_concurso_FK` (`Id_concurso`),
   CONSTRAINT `concurso_equipo_FK` FOREIGN KEY (`Id_equipo`) REFERENCES `equipo` (`Id_equipo`) ON DELETE CASCADE,
   CONSTRAINT `concurso_evaluacion_FK` FOREIGN KEY (`Id_evaluacion`) REFERENCES `evaluacion` (`Id_evaluacion`) ON DELETE CASCADE
+  CONSTRAINT `concurso_concurso_FK` FOREIGN KEY (`Id_concurso`) REFERENCES `concurso` (`Id_concurso`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -123,7 +122,7 @@ CREATE TABLE `registro` (
 
 LOCK TABLES `registro` WRITE;
 /*!40000 ALTER TABLE `registro` DISABLE KEYS */;
-INSERT INTO `registro` VALUES (1,1,1,'2026-11-01','2026-12-05');
+INSERT INTO `registro` VALUES (1,1,1,1,'2026-11-01','2026-12-05');
 /*!40000 ALTER TABLE `registro` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -137,3 +136,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-11-24 23:52:36
+
